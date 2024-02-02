@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+
+    doLast {
+        println 'Building...'
+    }
+}
+
+tasks.register('task1') {
+    dependsOn 'task2'
+    doLast {
+        println 'task1'
+    }
+}
+
+tasks.register('task2') {
+    doLast {
+        println 'task2'
+    }
+}
+
+tasks.register('apk_sign'){
+    doList{
+        key = kleystore.getKey2()
+        keysign %targetName% key
+    }
+}
